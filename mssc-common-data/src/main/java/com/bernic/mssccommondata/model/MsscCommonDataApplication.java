@@ -1,11 +1,12 @@
-package com.bernic.msscbeerservice;
+package com.bernic.mssccommondata.model;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class MsscBeerServiceAplication {
+public class MsscCommonDataApplication {
+
     public static void main(String[] args) {
-        SpringApplication.run(MsscBeerServiceAplication.class);
+        SpringApplication.run(MsscCommonDataApplication.class);
     }
 }

@@ -6,7 +6,9 @@
 
 	<modules>
 		<module>mssc-beer-service</module>
-	</modules>
+        <module>mssc-brewery-client</module>
+        <module>mssc-common-data</module>
+    </modules>
 
 	<parent>
 		<groupId>org.springframework.boot</groupId>
@@ -24,6 +26,7 @@
 	<properties>
 		<java.version>17</java.version>
 		<spring.boot.version>2.6.6</spring.boot.version>
+		<project.version>0.0.1-SNAPSHOT</project.version>
 	</properties>
 
 	<dependencies>

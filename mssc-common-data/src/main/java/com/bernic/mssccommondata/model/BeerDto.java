@@ -1,4 +1,4 @@
-package com.bernic.msscbeerservice.web.model;
+package com.bernic.mssccommondata.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

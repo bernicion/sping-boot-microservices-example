@@ -1,7 +1,6 @@
 package com.bernic.msscbeerservice.web.controller;
 
-import com.bernic.msscbeerservice.web.model.BeerDto;
-import com.fasterxml.jackson.core.JsonProcessingException;
+import com.bernic.mssccommondata.model.BeerDto;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

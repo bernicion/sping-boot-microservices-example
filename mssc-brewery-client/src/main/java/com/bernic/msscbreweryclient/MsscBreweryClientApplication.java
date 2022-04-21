@@ -1,11 +1,12 @@
-package com.bernic.msscbeerservice;
+package com.bernic.msscbreweryclient;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class MsscBeerServiceAplication {
+public class MsscBreweryClientApplication {
+
     public static void main(String[] args) {
-        SpringApplication.run(MsscBeerServiceAplication.class);
+        SpringApplication.run(MsscBreweryClientApplication.class);
     }
 }
