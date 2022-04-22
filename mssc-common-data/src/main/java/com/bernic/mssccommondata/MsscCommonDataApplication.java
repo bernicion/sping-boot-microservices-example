@@ -1,4 +1,4 @@
-package com.bernic.mssccommondata.model;
+package com.bernic.mssccommondata;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

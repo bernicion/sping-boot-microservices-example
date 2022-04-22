@@ -23,7 +23,6 @@
             <artifactId>mssc-common-data</artifactId>
             <version>${project.version}</version>
         </dependency>
-
     </dependencies>
 
 </project>

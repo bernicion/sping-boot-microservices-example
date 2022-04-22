@@ -5,14 +5,17 @@ import com.bernic.mssccommondata.model.BeerDto;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import java.util.UUID;
 
+@Validated
 @RequestMapping("/api/v1/beer")
 @RestController
 public class BeerController {
-
     private final BeerService beerService;
 
     public BeerController(BeerService beerService) {
@@ -20,12 +23,12 @@ public class BeerController {
     }
 
     @GetMapping("/{beerId}")
-    public ResponseEntity<BeerDto> getBeerById(@PathVariable("beerId") UUID beerId) {
+    public ResponseEntity<BeerDto> getBeerById(@NotNull @PathVariable("beerId") UUID beerId) {
         return new ResponseEntity<>(beerService.getBeerById(beerId), HttpStatus.OK);
     }
 
     @PostMapping
-    public ResponseEntity saveNewBeer(@RequestBody BeerDto beerDto) {
+    public ResponseEntity saveNewBeer(@RequestBody @Valid @NotNull BeerDto beerDto) {
         BeerDto savedBeer = beerService.saveNewBeer(beerDto);
 
         HttpHeaders headers = new HttpHeaders();
@@ -34,13 +37,13 @@ public class BeerController {
     }
 
     @PutMapping("/{beerId}")
-    public ResponseEntity updateBeerById(@PathVariable("beerId") UUID beerId, @RequestBody BeerDto beerDto) {
+    public ResponseEntity updateBeerById(@NotNull @PathVariable("beerId") UUID beerId, @RequestBody @Valid @NotNull BeerDto beerDto) {
         beerService.updateBeer(beerId, beerDto);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     @DeleteMapping("/{beerId}")
-    public ResponseEntity deleteBeerById(@PathVariable("beerId") UUID beerId) {
+    public ResponseEntity deleteBeerById(@NotNull @PathVariable("beerId") UUID beerId) {
         beerService.deleteBeerById(beerId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
