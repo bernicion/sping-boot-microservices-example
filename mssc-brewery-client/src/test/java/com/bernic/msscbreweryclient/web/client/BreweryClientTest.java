@@ -1,6 +1,6 @@
 package com.bernic.msscbreweryclient.web.client;
 
-import com.bernic.mssccommondata.model.BeerDto;
+import com.bernic.msscbreweryclient.model.BeerDto;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

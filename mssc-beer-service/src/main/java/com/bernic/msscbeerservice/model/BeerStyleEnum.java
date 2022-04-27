@@ -1,4 +1,4 @@
-package com.bernic.mssccommondata.model;
+package com.bernic.msscbeerservice.model;
 
 public enum BeerStyleEnum {
     LAGER, PILSNE, STOUT, GOSE, PORTER, ALE, WHEAT, IPA, PALE_ALE, SAISON

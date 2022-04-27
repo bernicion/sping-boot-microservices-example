@@ -17,11 +17,7 @@
     </properties>
 
     <dependencies>
-        <dependency>
-            <groupId>com.bernic</groupId>
-            <artifactId>mssc-common-data</artifactId>
-            <version>${project.version}</version>
-        </dependency>
+
     </dependencies>
 
 </project>
