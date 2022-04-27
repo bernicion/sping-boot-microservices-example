@@ -1,7 +1,7 @@
 package com.bernic.msscbeerservice.web.controller;
 
 import com.bernic.msscbeerservice.web.services.BeerService;
-import com.bernic.msscbeerservice.model.BeerDto;
+import com.bernic.msscbeerservice.web.model.BeerDto;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

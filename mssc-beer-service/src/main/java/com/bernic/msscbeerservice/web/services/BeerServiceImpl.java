@@ -1,6 +1,6 @@
 package com.bernic.msscbeerservice.web.services;
 
-import com.bernic.msscbeerservice.model.BeerDto;
+import com.bernic.msscbeerservice.web.model.BeerDto;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;

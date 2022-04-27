@@ -1,17 +1,15 @@
 package com.bernic.msscbeerservice.web.controller;
 
-import com.bernic.msscbeerservice.model.BeerDto;
-import com.bernic.msscbeerservice.model.BeerStyleEnum;
+import com.bernic.msscbeerservice.web.model.BeerDto;
+import com.bernic.msscbeerservice.web.model.BeerStyleEnum;
 import com.bernic.msscbeerservice.web.services.BeerServiceImpl;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.aspectj.lang.annotation.Before;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.event.annotation.BeforeTestMethod;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;

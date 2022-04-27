@@ -1,4 +1,4 @@
-package com.bernic.msscbeerservice.model;
+package com.bernic.msscbeerservice.web.model;
 
 
 import org.springframework.data.domain.PageImpl;
