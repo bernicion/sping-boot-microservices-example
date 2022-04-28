@@ -1,15 +1,17 @@
 package com.bernic.msscbeerservice.web.controller;
 
+import com.bernic.msscbeerservice.repositories.BeerRepository;
 import com.bernic.msscbeerservice.web.model.BeerDto;
 import com.bernic.msscbeerservice.web.model.BeerStyleEnum;
-import com.bernic.msscbeerservice.web.services.BeerServiceImpl;
+import com.bernic.msscbeerservice.web.services.BeerService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
@@ -17,8 +19,8 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import java.math.BigDecimal;
 import java.util.UUID;
 
-@WebMvcTest
-@ContextConfiguration(classes = {BeerController.class, BeerServiceImpl.class})
+@WebMvcTest({BeerController.class})
+@ComponentScan(basePackages = {"com.bernic.msscbeerservice.web.mappers"})
 class BeerControllerTest {
 
     @Autowired
@@ -26,6 +28,12 @@ class BeerControllerTest {
 
     @Autowired
     ObjectMapper objectMapper;
+
+    @MockBean
+    BeerService beerService;
+
+    @MockBean
+    BeerRepository beerRepository;
 
     BeerDto beerDto;
 
