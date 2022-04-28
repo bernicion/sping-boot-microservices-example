@@ -2,6 +2,7 @@ package com.bernic.msscbeerservice.web.controller;
 
 import com.bernic.msscbeerservice.web.services.BeerService;
 import com.bernic.msscbeerservice.web.model.BeerDto;
+import lombok.AllArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,12 +16,9 @@ import java.util.UUID;
 @Validated
 @RequestMapping("/api/v1/beer")
 @RestController
+@AllArgsConstructor
 public class BeerController {
     private final BeerService beerService;
-
-    public BeerController(BeerService beerService) {
-        this.beerService = beerService;
-    }
 
     @GetMapping("/{beerId}")
     public ResponseEntity<BeerDto> getBeerById(@NotNull @PathVariable("beerId") UUID beerId) {
