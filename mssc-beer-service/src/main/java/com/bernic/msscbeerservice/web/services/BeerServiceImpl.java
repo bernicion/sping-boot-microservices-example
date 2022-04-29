@@ -2,6 +2,7 @@ package com.bernic.msscbeerservice.web.services;
 
 import com.bernic.msscbeerservice.domain.Beer;
 import com.bernic.msscbeerservice.repositories.BeerRepository;
+import com.bernic.msscbeerservice.web.controller.NotFoundException;
 import com.bernic.msscbeerservice.web.mappers.BeerMapper;
 import com.bernic.msscbeerservice.web.model.BeerDto;
 import lombok.AllArgsConstructor;
@@ -18,21 +19,27 @@ public class BeerServiceImpl implements BeerService {
     private final BeerRepository beerRepository;
 
     @Override
-    public BeerDto getBeerById(UUID uuid) {
-        Beer beer = beerRepository.findById(uuid).get();
-        return beerMapper.beerToBeerDto(beer);
+    public BeerDto getBeerById(UUID beerId) {
+        return beerMapper.beerToBeerDto(
+                beerRepository.findById(beerId).orElseThrow(NotFoundException::new)
+        );
     }
 
     @Override
     public BeerDto saveNewBeer(BeerDto beerDto) {
-        Beer beer = beerMapper.beerDtoToBeer(beerDto);
-        return beerMapper.beerToBeerDto(beerRepository.save(beer));
+        return beerMapper.beerToBeerDto(beerRepository.save(beerMapper.beerDtoToBeer(beerDto)));
     }
 
     @Override
-    public BeerDto updateBeer(UUID uuid, BeerDto beerDto) {
-        Beer beer = beerRepository.findById(uuid).orElseThrow();
-        return beerMapper.beerToBeerDto(beerRepository.save(beerMapper.beerDtoToBeer(beerDto)));
+    public BeerDto updateBeer(UUID beerId, BeerDto beerDto) {
+        Beer beer = beerRepository.findById(beerId).orElseThrow(NotFoundException::new);
+
+        beer.setBeerName(beerDto.getBeerName());
+        beer.setBeerStyle(beerDto.getBeerStyle().name());
+        beer.setPrice(beerDto.getPrice());
+        beer.setUpc(beerDto.getUpc());
+
+        return beerMapper.beerToBeerDto(beerRepository.save(beer));
     }
 
     @Override
