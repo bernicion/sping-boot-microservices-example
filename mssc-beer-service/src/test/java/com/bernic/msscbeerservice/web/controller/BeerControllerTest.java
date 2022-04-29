@@ -51,7 +51,7 @@ class BeerControllerTest {
 
     @Test
     void getBeerById() throws Exception {
-        given(beerService.getBeerById(any())).willReturn(BeerDto.builder().build());
+        given(beerService.getBeerById(any())).willReturn(mockABeer());
         ConstrainedFields fields = new ConstrainedFields(BeerDto.class);
 
         mockMvc.perform(RestDocumentationRequestBuilders.get("/api/v1/beer/{beerId}", UUID.randomUUID())
@@ -83,6 +83,7 @@ class BeerControllerTest {
 
     @Test
     void saveNewBeer() throws Exception {
+        given(beerService.saveNewBeer(any())).willReturn(mockABeer());
         String beerDtoToJson = objectMapper.writeValueAsString(mockABeer());
         ConstrainedFields fields = new ConstrainedFields(BeerDto.class);
 
@@ -110,6 +111,7 @@ class BeerControllerTest {
 
     @Test
     void updateBeerById() throws Exception {
+        given(beerService.updateBeer(any(), any())).willReturn(mockABeer());
         String beerDtoToJson = objectMapper.writeValueAsString(mockABeer());
         mockMvc.perform(RestDocumentationRequestBuilders.put("/api/v1/beer/" + UUID.randomUUID())
                         .contentType(MediaType.APPLICATION_JSON)
@@ -121,7 +123,7 @@ class BeerControllerTest {
         return BeerDto.builder()
                 .beerName("Some Random Name")
                 .beerStyle(BeerStyleEnum.IPA)
-                .upc(100L)
+                .upc("0631234200036")
                 .price(BigDecimal.TEN)
                 .build();
     }

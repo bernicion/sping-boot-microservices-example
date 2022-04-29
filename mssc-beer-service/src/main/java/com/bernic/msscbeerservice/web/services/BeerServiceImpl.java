@@ -5,6 +5,7 @@ import com.bernic.msscbeerservice.repositories.BeerRepository;
 import com.bernic.msscbeerservice.web.mappers.BeerMapper;
 import com.bernic.msscbeerservice.web.model.BeerDto;
 import lombok.AllArgsConstructor;
+import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;
@@ -29,10 +30,9 @@ public class BeerServiceImpl implements BeerService {
     }
 
     @Override
-    public void updateBeer(UUID uuid, BeerDto beerDto) {
-        beerRepository.findById(uuid).ifPresent(beer -> {
-            beerRepository.save(beerMapper.beerDtoToBeer(beerDto));
-        });
+    public BeerDto updateBeer(UUID uuid, BeerDto beerDto) {
+        Beer beer = beerRepository.findById(uuid).orElseThrow();
+        return beerMapper.beerToBeerDto(beerRepository.save(beerMapper.beerDtoToBeer(beerDto)));
     }
 
     @Override

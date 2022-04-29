@@ -10,6 +10,10 @@ import java.util.Arrays;
 
 @Component
 public class BeerLoader implements CommandLineRunner {
+    private static final String BEER_UPC_1 = "0631234200036";
+    private static final String BEER_UPC_2 = "0631234200019";
+    private static final String BEER_UPC_3 = "0631234200084";
+
     private final BeerRepository beerRepository;
 
     public BeerLoader(BeerRepository beerRepository) {
@@ -28,7 +32,7 @@ public class BeerLoader implements CommandLineRunner {
                     .beerStyle("IPA")
                     .quantityToBrew(200)
                     .minOnHand(12)
-                    .upc(323423423423L)
+                    .upc(BEER_UPC_1)
                     .price(new BigDecimal("6.5"))
                     .build();
             Beer beerTwo = Beer.builder()
@@ -36,11 +40,20 @@ public class BeerLoader implements CommandLineRunner {
                     .beerStyle("PALE")
                     .quantityToBrew(150)
                     .minOnHand(10)
-                    .upc(3231113423423L)
+                    .upc(BEER_UPC_2)
                     .price(new BigDecimal("10.5"))
                     .build();
-            beerRepository.saveAll(Arrays.asList(beerOne, beerTwo));
+
+            Beer beerThree = Beer.builder()
+                    .beerName("No hammers on the bar")
+                    .beerStyle("PALE")
+                    .quantityToBrew(100)
+                    .minOnHand(14)
+                    .upc(BEER_UPC_3)
+                    .price(new BigDecimal("7.5"))
+                    .build();
+            beerRepository.saveAll(Arrays.asList(beerOne, beerTwo, beerThree));
         }
-        System.out.println("Loadedd beers: " + beerRepository.count());
+        System.out.println("Loaded beers: " + beerRepository.count());
     }
 }
