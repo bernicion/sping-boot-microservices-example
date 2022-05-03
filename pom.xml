@@ -8,6 +8,7 @@
 		<module>mssc-beer-service</module>
         <module>mssc-brewery-client</module>
         <module>mssc-beer-order-service</module>
+        <module>mssc-beer-inventory-service</module>
     </modules>
 
 	<parent>
@@ -28,6 +29,7 @@
 		<spring.boot.version>2.6.6</spring.boot.version>
 		<project.version>0.0.1-SNAPSHOT</project.version>
 		<org.mapstruct.version>1.4.2.Final</org.mapstruct.version>
+		<jaxb.version>2.3.1</jaxb.version>
 	</properties>
 
 	<dependencies>
