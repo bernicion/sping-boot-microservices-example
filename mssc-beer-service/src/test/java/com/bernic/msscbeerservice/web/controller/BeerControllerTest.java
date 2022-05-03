@@ -55,7 +55,7 @@ class BeerControllerTest {
 
     @Test
     void getBeerById() throws Exception {
-        given(beerService.getBeerById(any())).willReturn(mockABeer());
+        given(beerService.getBeerById(any(), any())).willReturn(mockABeer());
         ConstrainedFields fields = new ConstrainedFields(BeerDto.class);
 
         mockMvc.perform(RestDocumentationRequestBuilders.get("/api/v1/beer/{beerId}", UUID.randomUUID())
