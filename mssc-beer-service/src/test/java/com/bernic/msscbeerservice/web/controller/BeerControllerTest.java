@@ -4,6 +4,7 @@ import com.bernic.msscbeerservice.repositories.BeerRepository;
 import com.bernic.msscbeerservice.web.model.BeerDto;
 import com.bernic.msscbeerservice.web.model.BeerStyleEnum;
 import com.bernic.msscbeerservice.web.services.BeerService;
+import com.bernic.msscbeerservice.web.services.inventory.BeerInventoryService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -48,6 +49,9 @@ class BeerControllerTest {
 
     @MockBean
     BeerRepository beerRepository;
+
+    @MockBean
+    BeerInventoryService beerInventoryService;
 
     @Test
     void getBeerById() throws Exception {
