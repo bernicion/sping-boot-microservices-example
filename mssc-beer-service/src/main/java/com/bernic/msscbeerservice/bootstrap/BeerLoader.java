@@ -2,23 +2,21 @@ package com.bernic.msscbeerservice.bootstrap;
 
 import com.bernic.msscbeerservice.repositories.BeerRepository;
 import com.bernic.msscbeerservice.domain.Beer;
+import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
 import java.util.Arrays;
 
-//@Component
+@RequiredArgsConstructor
+@Component
 public class BeerLoader implements CommandLineRunner {
     private static final String BEER_UPC_1 = "0631234200036";
-    private static final String BEER_UPC_2 = "0631234200019";
-    private static final String BEER_UPC_3 = "0631234200084";
+    private static final String BEER_UPC_2 = "0631234300019";
+    private static final String BEER_UPC_3 = "0083783375213";
 
     private final BeerRepository beerRepository;
-
-    public BeerLoader(BeerRepository beerRepository) {
-        this.beerRepository = beerRepository;
-    }
 
     @Override
     public void run(String... args) throws Exception {
@@ -37,7 +35,7 @@ public class BeerLoader implements CommandLineRunner {
                     .build();
             Beer beerTwo = Beer.builder()
                     .beerName("Galaxy Cat")
-                    .beerStyle("PALE")
+                    .beerStyle("PORTER")
                     .quantityToBrew(150)
                     .minOnHand(10)
                     .upc(BEER_UPC_2)
@@ -46,7 +44,7 @@ public class BeerLoader implements CommandLineRunner {
 
             Beer beerThree = Beer.builder()
                     .beerName("No hammers on the bar")
-                    .beerStyle("PALE")
+                    .beerStyle("LAGER")
                     .quantityToBrew(100)
                     .minOnHand(14)
                     .upc(BEER_UPC_3)
