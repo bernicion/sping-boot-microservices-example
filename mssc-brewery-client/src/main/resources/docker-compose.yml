@@ -1,0 +1,15 @@
+version: '3.6'
+
+services:
+  activemq:
+    image: webcenter/activemq:latest
+    container_name: activemq
+    environment:
+      ACTIVEMQ_ADMIN_LOGIN: admin
+      ACTIVEMQ_ADMIN_PASSWORD: admin
+    ports:
+      - 61616:61616
+      - 8161:8161
+    volumes:
+      - ./data/activemq:/data/activemq
+      - ./var/log/activemq:/var/log/activemq
