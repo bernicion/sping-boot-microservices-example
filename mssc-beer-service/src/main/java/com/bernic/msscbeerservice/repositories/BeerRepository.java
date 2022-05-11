@@ -1,9 +1,8 @@
 package com.bernic.msscbeerservice.repositories;
 
 import com.bernic.msscbeerservice.domain.Beer;
-import com.bernic.msscbeerservice.web.model.BeerStyleEnum;
+import com.bernic.mssccommonresources.web.model.BeerStyleEnum;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Repository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

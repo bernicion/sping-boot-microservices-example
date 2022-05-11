@@ -1,6 +1,7 @@
-package com.bernic.msscbeerservice.events;
+package com.bernic.mssccommonresources.events;
 
-import com.bernic.msscbeerservice.web.model.BeerDto;
+import com.bernic.mssccommonresources.web.model.BeerDto;
+import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
 @NoArgsConstructor

@@ -1,7 +1,7 @@
 package com.bernic.msscbeerservice.web.mappers;
 
 import com.bernic.msscbeerservice.domain.Beer;
-import com.bernic.msscbeerservice.web.model.BeerDto;
+import com.bernic.mssccommonresources.web.model.BeerDto;
 import org.mapstruct.DecoratedWith;
 import org.mapstruct.Mapper;
 

@@ -1,10 +1,10 @@
 package com.bernic.msscbeerservice.web.controller;
 
 import com.bernic.msscbeerservice.repositories.BeerRepository;
-import com.bernic.msscbeerservice.web.model.BeerDto;
-import com.bernic.msscbeerservice.web.model.BeerStyleEnum;
+import com.bernic.mssccommonresources.web.model.BeerStyleEnum;
 import com.bernic.msscbeerservice.web.services.BeerService;
 import com.bernic.msscbeerservice.web.services.inventory.BeerInventoryService;
+import com.bernic.mssccommonresources.web.model.BeerDto;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
