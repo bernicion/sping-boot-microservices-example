@@ -35,7 +35,6 @@
         <project.version>0.0.1-SNAPSHOT</project.version>
         <org.mapstruct.version>1.4.2.Final</org.mapstruct.version>
         <jaxb.version>2.3.1</jaxb.version>
-        <project.version>0.0.1-SNAPSHOT</project.version>
     </properties>
 
     <dependencyManagement>
@@ -162,12 +161,12 @@
                             <version>0.2.0</version>
                         </dependency>
                     </annotationProcessorPaths>
-<!--                    <compilerArgs>-->
-<!--                        <compilerArg>-->
-<!--                            -Amapstruct.defaultComponentModel=spring-->
-<!--                            -Amapstruct.verbose=true-->
-<!--                        </compilerArg>-->
-<!--                    </compilerArgs>-->
+                    <compilerArgs>
+                        <compilerArg>
+                            -Amapstruct.defaultComponentModel=spring
+                            -Amapstruct.verbose=true
+                        </compilerArg>
+                    </compilerArgs>
                 </configuration>
             </plugin>
             <plugin>
