@@ -1,12 +1,11 @@
 package com.bernic.msscbeerservice.web.controller;
 
 import com.bernic.msscbeerservice.web.model.BeerPagedList;
-import com.bernic.msscbeerservice.web.model.BeerStyleEnum;
 import com.bernic.msscbeerservice.web.services.BeerService;
-import com.bernic.msscbeerservice.web.model.BeerDto;
+import com.bernic.mssccommonresources.web.model.BeerDto;
+import com.bernic.mssccommonresources.web.model.BeerStyleEnum;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -33,7 +32,7 @@ public class BeerController {
                                                    @RequestParam(value = "beerStyle", required = false) BeerStyleEnum beerStyle,
                                                    @RequestParam(value = "showInventoryOnHand", required = false) Boolean showInventoryOnHand) {
 
-        if(showInventoryOnHand == null){
+        if (showInventoryOnHand == null) {
             showInventoryOnHand = false;
         }
 
@@ -53,7 +52,7 @@ public class BeerController {
     @GetMapping("beer/{beerId}")
     public ResponseEntity<BeerDto> getBeerById(@NotNull @PathVariable("beerId") UUID beerId,
                                                @RequestParam(value = "showInventoryOnHand", required = false) Boolean showInventoryOnHand) {
-        if(showInventoryOnHand == null){
+        if (showInventoryOnHand == null) {
             showInventoryOnHand = false;
         }
         return new ResponseEntity<>(beerService.getBeerById(beerId, showInventoryOnHand), HttpStatus.OK);

@@ -12,6 +12,10 @@
     <artifactId>mssc-beer-inventory-service</artifactId>
 
     <dependencies>
-
+        <dependency>
+            <groupId>com.bernic</groupId>
+            <artifactId>mssc-common-resources</artifactId>
+            <version>${project.version}</version>
+        </dependency>
     </dependencies>
 </project>

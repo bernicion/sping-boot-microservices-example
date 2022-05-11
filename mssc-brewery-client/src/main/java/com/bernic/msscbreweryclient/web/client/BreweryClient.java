@@ -1,6 +1,6 @@
 package com.bernic.msscbreweryclient.web.client;
 
-import com.bernic.msscbreweryclient.model.BeerDto;
+import com.bernic.mssccommonresources.web.model.BeerDto;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.stereotype.Component;

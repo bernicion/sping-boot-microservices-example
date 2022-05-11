@@ -1,6 +1,5 @@
 package com.bernic.msscbreweryclient.jms.sender;
 
-import com.bernic.msscbreweryclient.jms.config.JmsConfig;
 import com.bernic.msscbreweryclient.jms.model.HelloWorldMessage;
 import lombok.RequiredArgsConstructor;
 import org.springframework.jms.core.JmsTemplate;
@@ -9,10 +8,11 @@ import org.springframework.stereotype.Component;
 
 import java.util.UUID;
 
+import static com.bernic.msscbreweryclient.jms.config.JmsConfig.MY_QUEUE;
+
 @RequiredArgsConstructor
 @Component
 public class HelloSender {
-
     private final JmsTemplate jmsTemplate;
 
     @Scheduled(fixedRate = 2000)
@@ -26,7 +26,7 @@ public class HelloSender {
                 .message("Hello World!")
                 .build();
 
-        jmsTemplate.convertAndSend(JmsConfig.MY_QUEUE, message);
+        jmsTemplate.convertAndSend(MY_QUEUE, message);
 
         System.out.println("Message Sent!");
 

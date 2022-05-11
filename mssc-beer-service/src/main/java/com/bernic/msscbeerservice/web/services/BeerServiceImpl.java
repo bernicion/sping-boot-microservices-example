@@ -4,9 +4,9 @@ import com.bernic.msscbeerservice.domain.Beer;
 import com.bernic.msscbeerservice.repositories.BeerRepository;
 import com.bernic.msscbeerservice.web.controller.NotFoundException;
 import com.bernic.msscbeerservice.web.mappers.BeerMapper;
-import com.bernic.msscbeerservice.web.model.BeerDto;
 import com.bernic.msscbeerservice.web.model.BeerPagedList;
-import com.bernic.msscbeerservice.web.model.BeerStyleEnum;
+import com.bernic.mssccommonresources.web.model.BeerDto;
+import com.bernic.mssccommonresources.web.model.BeerStyleEnum;
 import lombok.AllArgsConstructor;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
@@ -64,8 +64,6 @@ public class BeerServiceImpl implements BeerService {
                                     beerPage.getPageable().getPageSize()),
                     beerPage.getTotalElements());
         }
-
-
         return beerPagedList;
     }
 

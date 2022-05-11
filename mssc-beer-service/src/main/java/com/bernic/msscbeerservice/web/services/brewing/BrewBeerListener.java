@@ -1,18 +1,17 @@
 package com.bernic.msscbeerservice.web.services.brewing;
 
-import com.bernic.msscbeerservice.config.JmsConfig;
 import com.bernic.msscbeerservice.domain.Beer;
-import com.bernic.msscbeerservice.events.BrewBeerEvent;
-import com.bernic.msscbeerservice.events.NewInventoryEvent;
 import com.bernic.msscbeerservice.repositories.BeerRepository;
-import com.bernic.msscbeerservice.web.model.BeerDto;
+import com.bernic.mssccommonresources.config.JmsConfigConstants;
+import com.bernic.mssccommonresources.events.BrewBeerEvent;
+import com.bernic.mssccommonresources.events.NewInventoryEvent;
+import com.bernic.mssccommonresources.web.model.BeerDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.jms.annotation.JmsListener;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 
 @Service
 @RequiredArgsConstructor
@@ -24,7 +23,7 @@ public class BrewBeerListener {
     private final JmsTemplate jmsTemplate;
 
     @Transactional
-    @JmsListener(destination = JmsConfig.BREWING_REQUEST_QUEUE)
+    @JmsListener(destination = JmsConfigConstants.BREWING_REQUEST_QUEUE)
     public void listen(BrewBeerEvent brewBeerEvent) {
         BeerDto beerDto = brewBeerEvent.getBeerDto();
 
@@ -35,6 +34,6 @@ public class BrewBeerListener {
         log.debug(String.format("Brewed beer with UPC %s, Min on Hand: %s, QOH: %s",
                 beerDto.getUpc(), beer.getMinOnHand(), beerDto.getQuantityOnHand()));
 
-        jmsTemplate.convertAndSend(JmsConfig.NEW_INVENTORY_QUEUE, newInventoryEvent);
+        jmsTemplate.convertAndSend(JmsConfigConstants.NEW_INVENTORY_QUEUE, newInventoryEvent);
     }
 }
