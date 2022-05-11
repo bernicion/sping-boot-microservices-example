@@ -16,7 +16,6 @@ import java.util.UUID;
 @NoArgsConstructor
 @Entity
 public class BeerInventory extends BaseEntity{
-
     @Builder
     public BeerInventory(UUID id, Long version, Timestamp createdDate, Timestamp lastModifiedDate, UUID beerId,
                          String upc, Integer quantityOnHand) {

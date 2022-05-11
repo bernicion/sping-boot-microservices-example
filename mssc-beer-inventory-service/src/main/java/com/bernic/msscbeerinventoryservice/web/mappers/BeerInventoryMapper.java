@@ -1,7 +1,7 @@
 package com.bernic.msscbeerinventoryservice.web.mappers;
 
 import com.bernic.msscbeerinventoryservice.domain.BeerInventory;
-import com.bernic.msscbeerinventoryservice.web.model.BeerInventoryDto;
+import com.bernic.brewery.model.BeerInventoryDto;
 import org.mapstruct.Mapper;
 
 /**

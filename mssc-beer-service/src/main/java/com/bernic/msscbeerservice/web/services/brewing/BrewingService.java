@@ -1,11 +1,11 @@
 package com.bernic.msscbeerservice.web.services.brewing;
 
+import com.bernic.brewery.model.events.BrewBeerEvent;
+import com.bernic.msscbeerservice.config.JmsConfig;
 import com.bernic.msscbeerservice.domain.Beer;
 import com.bernic.msscbeerservice.repositories.BeerRepository;
 import com.bernic.msscbeerservice.web.mappers.BeerMapper;
 import com.bernic.msscbeerservice.web.services.inventory.BeerInventoryService;
-import com.bernic.mssccommonresources.config.JmsConfigConstants;
-import com.bernic.mssccommonresources.events.BrewBeerEvent;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.jms.core.JmsTemplate;
@@ -26,12 +26,16 @@ public class BrewingService {
     @Scheduled(fixedRate = 5000) //every 5 seconds
     public void checkForLowInventory() {
         List<Beer> beerList = beerRepository.findAll();
+        log.debug(String.format("A total of %s beers are extracted", beerList.size()));
+
         beerList.forEach(beer -> {
             Integer inventoryQOH = beerInventoryService.getOnhandInventory(beer.getId());
+
             log.debug(String.format("Min on Hand for Beer With UPC %s is %s, real inventory is %s: ",
                     beer.getUpc(), beer.getMinOnHand(), inventoryQOH));
+
             if (beer.getMinOnHand() >= inventoryQOH) {
-                jmsTemplate.convertAndSend(JmsConfigConstants.BREWING_REQUEST_QUEUE, new BrewBeerEvent(beerMapper.beerToBeerDto(beer)));
+                jmsTemplate.convertAndSend(JmsConfig.BREWING_REQUEST_QUEUE, new BrewBeerEvent(beerMapper.beerToBeerDto(beer)));
             }
         });
     }

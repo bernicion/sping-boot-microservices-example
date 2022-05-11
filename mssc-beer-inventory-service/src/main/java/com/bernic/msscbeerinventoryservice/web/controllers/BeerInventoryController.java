@@ -2,7 +2,7 @@ package com.bernic.msscbeerinventoryservice.web.controllers;
 
 import com.bernic.msscbeerinventoryservice.repositories.BeerInventoryRepository;
 import com.bernic.msscbeerinventoryservice.web.mappers.BeerInventoryMapper;
-import com.bernic.msscbeerinventoryservice.web.model.BeerInventoryDto;
+import com.bernic.brewery.model.BeerInventoryDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,9 +13,6 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-/**
- * Created by jt on 2019-05-31.
- */
 @Slf4j
 @RequiredArgsConstructor
 @RestController

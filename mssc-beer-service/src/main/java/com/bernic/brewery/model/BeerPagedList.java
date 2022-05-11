@@ -1,6 +1,5 @@
-package com.bernic.msscbeerservice.web.model;
+package com.bernic.brewery.model;
 
-import com.bernic.mssccommonresources.web.model.BeerDto;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.JsonNode;

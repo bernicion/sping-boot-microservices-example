@@ -1,4 +1,4 @@
-package com.bernic.msscbeerinventoryservice.web.model;
+package com.bernic.brewery.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

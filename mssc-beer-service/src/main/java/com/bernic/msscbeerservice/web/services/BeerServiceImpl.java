@@ -1,12 +1,12 @@
 package com.bernic.msscbeerservice.web.services;
 
+import com.bernic.brewery.model.BeerDto;
 import com.bernic.msscbeerservice.domain.Beer;
 import com.bernic.msscbeerservice.repositories.BeerRepository;
 import com.bernic.msscbeerservice.web.controller.NotFoundException;
 import com.bernic.msscbeerservice.web.mappers.BeerMapper;
-import com.bernic.msscbeerservice.web.model.BeerPagedList;
-import com.bernic.mssccommonresources.web.model.BeerDto;
-import com.bernic.mssccommonresources.web.model.BeerStyleEnum;
+import com.bernic.brewery.model.BeerPagedList;
+import com.bernic.brewery.model.BeerStyleEnum;
 import lombok.AllArgsConstructor;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;

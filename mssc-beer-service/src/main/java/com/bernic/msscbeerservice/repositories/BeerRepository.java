@@ -1,7 +1,7 @@
 package com.bernic.msscbeerservice.repositories;
 
 import com.bernic.msscbeerservice.domain.Beer;
-import com.bernic.mssccommonresources.web.model.BeerStyleEnum;
+import com.bernic.brewery.model.BeerStyleEnum;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import org.springframework.data.domain.Page;

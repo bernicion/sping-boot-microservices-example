@@ -12,7 +12,6 @@
     </parent>
 
     <modules>
-        <module>mssc-common-resources</module>
         <module>mssc-beer-service</module>
         <module>mssc-brewery-client</module>
         <module>mssc-beer-order-service</module>

@@ -1,9 +1,9 @@
 package com.bernic.msscbeerservice.web.controller;
 
-import com.bernic.msscbeerservice.web.model.BeerPagedList;
+import com.bernic.brewery.model.BeerDto;
+import com.bernic.brewery.model.BeerPagedList;
 import com.bernic.msscbeerservice.web.services.BeerService;
-import com.bernic.mssccommonresources.web.model.BeerDto;
-import com.bernic.mssccommonresources.web.model.BeerStyleEnum;
+import com.bernic.brewery.model.BeerStyleEnum;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;

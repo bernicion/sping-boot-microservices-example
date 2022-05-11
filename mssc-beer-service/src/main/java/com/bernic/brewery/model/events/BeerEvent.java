@@ -1,7 +1,10 @@
-package com.bernic.mssccommonresources.events;
+package com.bernic.brewery.model.events;
 
-import com.bernic.mssccommonresources.web.model.BeerDto;
-import lombok.*;
+import com.bernic.brewery.model.BeerDto;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.io.Serial;
 import java.io.Serializable;

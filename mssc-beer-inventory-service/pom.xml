@@ -13,9 +13,8 @@
 
     <dependencies>
         <dependency>
-            <groupId>com.bernic</groupId>
-            <artifactId>mssc-common-resources</artifactId>
-            <version>${parent.version}</version>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-validation</artifactId>
         </dependency>
     </dependencies>
 </project>
