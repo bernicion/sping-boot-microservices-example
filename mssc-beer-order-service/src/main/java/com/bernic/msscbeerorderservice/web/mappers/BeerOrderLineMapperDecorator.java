@@ -3,7 +3,7 @@ package com.bernic.msscbeerorderservice.web.mappers;
 import com.bernic.msscbeerorderservice.domain.BeerOrderLine;
 import com.bernic.msscbeerorderservice.services.beer.BeerService;
 import com.bernic.msscbeerorderservice.services.beer.model.BeerDto;
-import com.bernic.msscbeerorderservice.web.model.BeerOrderLineDto;
+import com.bernic.msscbeerorderservice.brewery.model.BeerOrderLineDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 

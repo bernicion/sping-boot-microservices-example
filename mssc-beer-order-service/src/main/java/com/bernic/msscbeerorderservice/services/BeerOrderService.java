@@ -1,7 +1,7 @@
 package com.bernic.msscbeerorderservice.services;
 
-import com.bernic.msscbeerorderservice.web.model.BeerOrderDto;
-import com.bernic.msscbeerorderservice.web.model.BeerOrderPagedList;
+import com.bernic.msscbeerorderservice.brewery.model.BeerOrderDto;
+import com.bernic.msscbeerorderservice.brewery.model.BeerOrderPagedList;
 import org.springframework.data.domain.Pageable;
 
 import java.util.UUID;

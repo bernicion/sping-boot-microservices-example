@@ -1,4 +1,4 @@
-package com.bernic.msscbeerorderservice.web.model;
+package com.bernic.msscbeerorderservice.brewery.model;
 
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;

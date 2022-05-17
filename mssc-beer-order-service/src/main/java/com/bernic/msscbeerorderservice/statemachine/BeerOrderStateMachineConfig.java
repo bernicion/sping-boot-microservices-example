@@ -1,6 +1,5 @@
 package com.bernic.msscbeerorderservice.statemachine;
 
-import com.bernic.msscbeerorderservice.domain.BeerOrder;
 import com.bernic.msscbeerorderservice.domain.BeerOrderEventEnum;
 import com.bernic.msscbeerorderservice.domain.BeerOrderStatusEnum;
 import org.springframework.context.annotation.Configuration;
