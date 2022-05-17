@@ -4,6 +4,7 @@ import com.bernic.msscbeerorderservice.domain.BeerOrder;
 import com.bernic.msscbeerorderservice.domain.BeerOrderEventEnum;
 import com.bernic.msscbeerorderservice.domain.BeerOrderStatusEnum;
 import com.bernic.msscbeerorderservice.repositories.BeerOrderRepository;
+import com.bernic.msscbeerorderservice.statemachine.BeerOrderStateChangeInterceptor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.messaging.Message;
 import org.springframework.messaging.support.MessageBuilder;
@@ -17,7 +18,10 @@ import javax.transaction.Transactional;
 @Service
 @RequiredArgsConstructor
 public class BeerOrderManagerImpl implements BeerOrderManager {
+    public static final String ORDER_ID_HEADER = "ORDER_ID_HEADER";
     private final StateMachineFactory<BeerOrderStatusEnum, BeerOrderEventEnum> stateMachineFactory;
+
+    private final BeerOrderStateChangeInterceptor stateChangeInterceptor;
     private final BeerOrderRepository beerOrderRepository;
 
     @Transactional
@@ -35,6 +39,7 @@ public class BeerOrderManagerImpl implements BeerOrderManager {
     private void sendBeerOrderEvent(BeerOrder beerOrder, BeerOrderEventEnum eventEnum){
         StateMachine<BeerOrderStatusEnum, BeerOrderEventEnum> sm = build(beerOrder);
         Message msg = MessageBuilder.withPayload(eventEnum)
+                .setHeader(ORDER_ID_HEADER, beerOrder.getId().toString())
                 .build();
         sm.sendEvent(msg);
     }
@@ -45,6 +50,7 @@ public class BeerOrderManagerImpl implements BeerOrderManager {
 
         sm.getStateMachineAccessor()
                 .doWithAllRegions(sma ->{
+                    sma.addStateMachineInterceptor(stateChangeInterceptor);
                     sma.resetStateMachine(new DefaultStateMachineContext<>(beerOrder.getOrderStatus(), null, null, null));
                 });
         sm.start();
