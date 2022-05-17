@@ -14,7 +14,6 @@ import javax.persistence.OneToMany;
 import java.sql.Timestamp;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.TreeSet;
 import java.util.UUID;
 
 @Getter
@@ -25,7 +24,7 @@ public class BeerOrder extends BaseEntity {
 
     @Builder
     public BeerOrder(UUID id, Long version, Timestamp createdDate, Timestamp lastModifiedDate, String customerRef, Customer customer,
-                     Set<BeerOrderLine> beerOrderLines, OrderStatusEnum orderStatus,
+                     Set<BeerOrderLine> beerOrderLines, BeerOrderStatusEnum orderStatus,
                      String orderStatusCallbackUrl) {
         super(id, version, createdDate, lastModifiedDate);
         this.customerRef = customerRef;
@@ -44,6 +43,6 @@ public class BeerOrder extends BaseEntity {
     @Fetch(FetchMode.JOIN)
     private Set<BeerOrderLine> beerOrderLines = new HashSet<>();
 
-    private OrderStatusEnum orderStatus = OrderStatusEnum.NEW;
+    private BeerOrderStatusEnum orderStatus = BeerOrderStatusEnum.NEW;
     private String orderStatusCallbackUrl;
 }
