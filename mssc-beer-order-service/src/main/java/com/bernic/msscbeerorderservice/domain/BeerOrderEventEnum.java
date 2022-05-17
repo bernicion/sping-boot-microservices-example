@@ -5,7 +5,7 @@ public enum BeerOrderEventEnum {
     VALIDATION_PASSED,
     VALIDATION_FAILED,
 
-    ALLOCATED_ORDER,
+    ALLOCATE_ORDER,
 
     ALLOCATION_SUCCESS,
 

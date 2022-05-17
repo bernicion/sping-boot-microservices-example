@@ -1,5 +1,6 @@
 package com.bernic.msscbeerorderservice.services;
 
+import com.bernic.msscbeerorderservice.brewery.model.BeerOrderDto;
 import com.bernic.msscbeerorderservice.domain.BeerOrder;
 import com.bernic.msscbeerorderservice.domain.BeerOrderEventEnum;
 import com.bernic.msscbeerorderservice.domain.BeerOrderStatusEnum;
@@ -21,7 +22,6 @@ import java.util.UUID;
 public class BeerOrderManagerImpl implements BeerOrderManager {
     public static final String ORDER_ID_HEADER = "ORDER_ID_HEADER";
     private final StateMachineFactory<BeerOrderStatusEnum, BeerOrderEventEnum> stateMachineFactory;
-
     private final BeerOrderStateChangeInterceptor stateChangeInterceptor;
     private final BeerOrderRepository beerOrderRepository;
 
@@ -40,14 +40,53 @@ public class BeerOrderManagerImpl implements BeerOrderManager {
     @Override
     public void processValidationResult(UUID beerOrderId, Boolean isValid) {
         BeerOrder beerOrder = beerOrderRepository.getById(beerOrderId);
-        if(isValid){
+        if (isValid) {
             sendBeerOrderEvent(beerOrder, BeerOrderEventEnum.VALIDATION_PASSED);
+
+            BeerOrder validatedOrder = beerOrderRepository.findOneById(beerOrderId);//get the latest object
+            sendBeerOrderEvent(validatedOrder, BeerOrderEventEnum.ALLOCATE_ORDER);
+
         } else {
             sendBeerOrderEvent(beerOrder, BeerOrderEventEnum.VALIDATION_FAILED);
         }
     }
 
-    private void sendBeerOrderEvent(BeerOrder beerOrder, BeerOrderEventEnum eventEnum){
+    @Override
+    public void beerOrderAllocationPassed(BeerOrderDto beerOrderDto) {
+        BeerOrder beerOrder = beerOrderRepository.getById(beerOrderDto.getId());
+        sendBeerOrderEvent(beerOrder, BeerOrderEventEnum.ALLOCATION_SUCCESS);
+        updateAllocatedQty(beerOrderDto, beerOrder);
+    }
+
+    @Override
+    public void beerOrderAllocationPendingInventory(BeerOrderDto beerOrderDto) {
+        BeerOrder beerOrder = beerOrderRepository.getById(beerOrderDto.getId());
+        sendBeerOrderEvent(beerOrder, BeerOrderEventEnum.ALLOCATION_NO_INVENTORY);
+
+        updateAllocatedQty(beerOrderDto, beerOrder);
+    }
+
+    private void updateAllocatedQty(BeerOrderDto beerOrderDto, BeerOrder beerOrder) {
+        BeerOrder allocatedOrder = beerOrderRepository.getById(beerOrderDto.getId());
+
+        allocatedOrder.getBeerOrderLines().forEach(beerOrderLine -> {
+            beerOrderDto.getBeerOrderLines().forEach(beerOrderLineDto -> {
+                if (beerOrderLine.getId().equals(beerOrderLineDto.getId())) {
+                    beerOrderLine.setQuantityAllocated(beerOrderLineDto.getQuantityAllocated());
+                }
+            });
+        });
+
+        beerOrderRepository.saveAndFlush(beerOrder);
+    }
+
+    @Override
+    public void beerOrderAllocationFailed(BeerOrderDto beerOrderDto) {
+        BeerOrder beerOrder = beerOrderRepository.getById(beerOrderDto.getId());
+        sendBeerOrderEvent(beerOrder, BeerOrderEventEnum.ALLOCATION_FAILED);
+    }
+
+    private void sendBeerOrderEvent(BeerOrder beerOrder, BeerOrderEventEnum eventEnum) {
         StateMachine<BeerOrderStatusEnum, BeerOrderEventEnum> sm = build(beerOrder);
         Message msg = MessageBuilder.withPayload(eventEnum)
                 .setHeader(ORDER_ID_HEADER, beerOrder.getId().toString())
@@ -55,12 +94,12 @@ public class BeerOrderManagerImpl implements BeerOrderManager {
         sm.sendEvent(msg);
     }
 
-    private StateMachine<BeerOrderStatusEnum, BeerOrderEventEnum> build(BeerOrder beerOrder){
+    private StateMachine<BeerOrderStatusEnum, BeerOrderEventEnum> build(BeerOrder beerOrder) {
         StateMachine<BeerOrderStatusEnum, BeerOrderEventEnum> sm = stateMachineFactory.getStateMachine(beerOrder.getId());
         sm.stop();
 
         sm.getStateMachineAccessor()
-                .doWithAllRegions(sma ->{
+                .doWithAllRegions(sma -> {
                     sma.addStateMachineInterceptor(stateChangeInterceptor);
                     sma.resetStateMachine(new DefaultStateMachineContext<>(beerOrder.getOrderStatus(), null, null, null));
                 });

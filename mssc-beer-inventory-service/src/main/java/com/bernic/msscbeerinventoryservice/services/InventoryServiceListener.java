@@ -1,4 +1,4 @@
-package com.bernic.msscbeerinventoryservice.web.services;
+package com.bernic.msscbeerinventoryservice.services;
 
 import com.bernic.brewery.model.events.BeerDto;
 import com.bernic.brewery.model.events.NewInventoryEvent;
