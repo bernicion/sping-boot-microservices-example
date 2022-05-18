@@ -1,4 +1,4 @@
-package com.bernic.msscbeerorderservice.brewery.model;
+package com.bernic.brewery.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;

@@ -4,8 +4,8 @@ import com.bernic.msscbeerorderservice.bootstrap.BeerOrderBootStrap;
 import com.bernic.msscbeerorderservice.domain.Customer;
 import com.bernic.msscbeerorderservice.repositories.BeerOrderRepository;
 import com.bernic.msscbeerorderservice.repositories.CustomerRepository;
-import com.bernic.msscbeerorderservice.brewery.model.BeerOrderDto;
-import com.bernic.msscbeerorderservice.brewery.model.BeerOrderLineDto;
+import com.bernic.brewery.model.BeerOrderDto;
+import com.bernic.brewery.model.BeerOrderLineDto;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
@@ -38,7 +38,7 @@ public class TastingRoomService {
     }
 
     @Transactional
-    @Scheduled(fixedDelay = 2000, initialDelay = 10000)
+//    @Scheduled(fixedDelay = 2000, initialDelay = 10000)
     public void placeTastingRoomOrder(){
         log.info("Trying to place and order at " + LocalDateTime.now());
         List<Customer> customerList = customerRepository.findAllByCustomerName(BeerOrderBootStrap.TASTING_ROOM);

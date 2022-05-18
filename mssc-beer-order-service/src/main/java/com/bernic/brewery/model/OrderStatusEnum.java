@@ -1,4 +1,4 @@
-package com.bernic.msscbeerorderservice.brewery.model;
+package com.bernic.brewery.model;
 
 public enum OrderStatusEnum {
     NEW, READY, PICKED_UP

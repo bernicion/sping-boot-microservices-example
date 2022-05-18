@@ -1,6 +1,6 @@
 package com.bernic.msscbeerorderservice.services.listeners;
 
-import com.bernic.msscbeerorderservice.brewery.model.events.ValidateOrderResult;
+import com.bernic.brewery.model.events.ValidateOrderResult;
 import com.bernic.msscbeerorderservice.config.JmsConfig;
 import com.bernic.msscbeerorderservice.services.BeerOrderManager;
 import lombok.RequiredArgsConstructor;

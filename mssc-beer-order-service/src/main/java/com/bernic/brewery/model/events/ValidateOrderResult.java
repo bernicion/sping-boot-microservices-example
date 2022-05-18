@@ -1,4 +1,4 @@
-package com.bernic.msscbeerorderservice.brewery.model.events;
+package com.bernic.brewery.model.events;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

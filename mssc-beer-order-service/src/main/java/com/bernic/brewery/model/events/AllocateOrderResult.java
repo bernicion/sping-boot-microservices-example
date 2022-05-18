@@ -1,6 +1,6 @@
-package com.bernic.msscbeerorderservice.brewery.model.events;
+package com.bernic.brewery.model.events;
 
-import com.bernic.msscbeerorderservice.brewery.model.BeerOrderDto;
+import com.bernic.brewery.model.BeerOrderDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

@@ -1,6 +1,6 @@
 package com.bernic.msscbeerorderservice.services;
 
-import com.bernic.msscbeerorderservice.brewery.model.BeerOrderDto;
+import com.bernic.brewery.model.BeerOrderDto;
 import com.bernic.msscbeerorderservice.domain.BeerOrder;
 
 import java.util.UUID;

@@ -1,6 +1,6 @@
 package com.bernic.msscbeerorderservice.statemachine.actions;
 
-import com.bernic.msscbeerorderservice.brewery.model.events.ValidateOrderRequest;
+import com.bernic.brewery.model.events.ValidateOrderRequest;
 import com.bernic.msscbeerorderservice.config.JmsConfig;
 import com.bernic.msscbeerorderservice.domain.BeerOrder;
 import com.bernic.msscbeerorderservice.domain.BeerOrderEventEnum;
@@ -14,7 +14,9 @@ import org.springframework.jms.core.JmsTemplate;
 import org.springframework.statemachine.StateContext;
 import org.springframework.statemachine.action.Action;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
 import java.util.UUID;
 
 @Slf4j
@@ -28,12 +30,14 @@ public class ValidateOrderAction implements Action<BeerOrderStatusEnum, BeerOrde
     @Override
     public void execute(StateContext<BeerOrderStatusEnum, BeerOrderEventEnum> stateContext) {
         String beerOrderId = (String) stateContext.getMessage().getHeaders().get(BeerOrderManagerImpl.ORDER_ID_HEADER);
-        BeerOrder beerOrder = beerOrderRepository.findOneById(UUID.fromString(beerOrderId));
+        Optional<BeerOrder> beerOrderOptional = beerOrderRepository.findById(UUID.fromString(beerOrderId));
 
-        jmsTemplate.convertAndSend(JmsConfig.VALIDATE_ORDER_QUEUE, ValidateOrderRequest.builder()
-                .beerOrderDto(beerOrderMapper.beerOrderToDto(beerOrder))
-                .build());
+        beerOrderOptional.ifPresentOrElse(beerOrder -> {
+            jmsTemplate.convertAndSend(JmsConfig.VALIDATE_ORDER_QUEUE, ValidateOrderRequest.builder()
+                    .beerOrderDto(beerOrderMapper.beerOrderToDto(beerOrder))
+                    .build());
+        }, () -> log.error("Order Not Found. Id: " + beerOrderId));
 
-        log.debug("Sent validation request for order with id" + beerOrderId);
+        log.debug("Sent Validation request to queue for order id " + beerOrderId);
     }
 }

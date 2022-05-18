@@ -2,8 +2,8 @@ package com.bernic.msscbeerorderservice.web.controllers;
 
 import com.bernic.msscbeerorderservice.services.BeerOrderService;
 
-import com.bernic.msscbeerorderservice.brewery.model.BeerOrderDto;
-import com.bernic.msscbeerorderservice.brewery.model.BeerOrderPagedList;
+import com.bernic.brewery.model.BeerOrderDto;
+import com.bernic.brewery.model.BeerOrderPagedList;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;

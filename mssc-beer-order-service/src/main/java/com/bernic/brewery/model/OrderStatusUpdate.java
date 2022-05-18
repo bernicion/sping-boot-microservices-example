@@ -1,18 +1,17 @@
-package com.bernic.msscbeerorderservice.brewery.model;
+package com.bernic.brewery.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 
 import java.time.OffsetDateTime;
-import java.util.List;
 import java.util.UUID;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class BeerOrderDto {
+public class OrderStatusUpdate {
 
     @JsonProperty("id")
     private UUID id = null;
@@ -28,9 +27,7 @@ public class BeerOrderDto {
     @JsonProperty("lastModifiedDate")
     private OffsetDateTime lastModifiedDate = null;
 
-    private UUID customerId;
+    private UUID orderId;
     private String customerRef;
-    private List<BeerOrderLineDto> beerOrderLines;
     private String orderStatus;
-    private String orderStatusCallbackUrl;
 }
