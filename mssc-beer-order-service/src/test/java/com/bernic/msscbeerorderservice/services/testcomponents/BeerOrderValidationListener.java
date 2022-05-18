@@ -20,7 +20,7 @@ public class BeerOrderValidationListener {
     public void list(Message message) {
         ValidateOrderRequest request = (ValidateOrderRequest) message.getPayload();
 
-        log.debug("########### DUMMY Listener###############");
+        log.debug("########### DUMMY Validation Listener###############");
         jmsTemplate.convertAndSend(JmsConfig.VALIDATE_ORDER_RESPONSE_QUEUE,
                 ValidateOrderResult.builder()
                         .isValid(true)
