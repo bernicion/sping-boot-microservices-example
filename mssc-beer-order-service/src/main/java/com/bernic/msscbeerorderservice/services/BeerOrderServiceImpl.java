@@ -8,6 +8,7 @@ import com.bernic.msscbeerorderservice.repositories.CustomerRepository;
 import com.bernic.msscbeerorderservice.web.mappers.BeerOrderMapper;
 import com.bernic.brewery.model.BeerOrderDto;
 import com.bernic.brewery.model.BeerOrderPagedList;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -20,19 +21,14 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Slf4j
+@RequiredArgsConstructor
 @Service
 public class BeerOrderServiceImpl implements BeerOrderService {
     private final BeerOrderRepository beerOrderRepository;
     private final CustomerRepository customerRepository;
     private final BeerOrderMapper beerOrderMapper;
 
-    public BeerOrderServiceImpl(BeerOrderRepository beerOrderRepository,
-                                CustomerRepository customerRepository,
-                                BeerOrderMapper beerOrderMapper) {
-        this.beerOrderRepository = beerOrderRepository;
-        this.customerRepository = customerRepository;
-        this.beerOrderMapper = beerOrderMapper;
-    }
+    private final BeerOrderManager beerOrderManager;
 
     @Override
     public BeerOrderPagedList listOrders(UUID customerId, Pageable pageable) {
@@ -70,7 +66,8 @@ public class BeerOrderServiceImpl implements BeerOrderService {
                 log.debug(String.format("Ordered %s Beers with UPC %s ", line.getOrderQuantity(), line.getUpc()));
             });
 
-            BeerOrder savedBeerOrder = beerOrderRepository.saveAndFlush(beerOrder);
+            BeerOrder savedBeerOrder = beerOrderManager.newBeerOrder(beerOrder);
+            log.info("Saved Beer Order: " + savedBeerOrder.getId());
             return beerOrderMapper.beerOrderToDto(savedBeerOrder);
         }
         //todo add exception type
@@ -84,10 +81,8 @@ public class BeerOrderServiceImpl implements BeerOrderService {
 
     @Override
     public void pickupOrder(UUID customerId, UUID orderId) {
-        BeerOrder beerOrder = getOrder(customerId, orderId);
-        beerOrder.setOrderStatus(BeerOrderStatusEnum.PICKED_UP);
-
-        beerOrderRepository.save(beerOrder);
+        beerOrderManager.beerOrderPickedUp(orderId);
+        log.info("Picked Up Beer Order: " + orderId);
     }
 
     private BeerOrder getOrder(UUID customerId, UUID orderId) {
