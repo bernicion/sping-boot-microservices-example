@@ -106,7 +106,6 @@ public class BeerOrderManagerImplIT {
 
         BeerOrder beerOrder = createBeerOrder();
 
-
         BeerOrder savedBeerOrder = beerOrderManager.newBeerOrder(beerOrder);
 
         await().untilAsserted(() -> {
