@@ -1,6 +1,8 @@
 package com.bernic.msscbeerorderservice.services;
 
 import com.bernic.brewery.model.BeerDto;
+import com.bernic.brewery.model.events.AllocationFailureEvent;
+import com.bernic.msscbeerorderservice.config.JmsConfig;
 import com.bernic.msscbeerorderservice.domain.BeerOrder;
 import com.bernic.msscbeerorderservice.domain.BeerOrderLine;
 import com.bernic.msscbeerorderservice.domain.BeerOrderStatusEnum;
@@ -19,6 +21,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
+import org.springframework.jms.core.JmsTemplate;
 
 import java.util.*;
 import java.util.concurrent.TimeUnit;
@@ -27,6 +30,7 @@ import static com.github.tomakehurst.wiremock.client.WireMock.get;
 import static com.github.jenspiegsa.wiremockextension.ManagedWireMockServer.with;
 import static com.github.tomakehurst.wiremock.client.WireMock.okJson;
 import static com.github.tomakehurst.wiremock.core.WireMockConfiguration.wireMockConfig;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.awaitility.Awaitility.await;
 import static org.awaitility.Awaitility.waitAtMost;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -46,6 +50,9 @@ public class BeerOrderManagerImplIT {
     ObjectMapper objectMapper;
     @Autowired
     WireMockServer wireMockServer;
+    @Autowired
+    JmsTemplate jmsTemplate;
+
     private Customer customer;
     private UUID beerId = UUID.randomUUID();
 
@@ -64,7 +71,6 @@ public class BeerOrderManagerImplIT {
         customer = customerRepository.save(Customer.builder()
                 .customerName("Test Customer")
                 .build());
-//        beerId = UUID.randomUUID();
     }
 
     @Test
@@ -108,11 +114,48 @@ public class BeerOrderManagerImplIT {
         BeerOrder beerOrder = createBeerOrder();
         beerOrder.setCustomerRef("fail-validation");
 
-        BeerOrder savedBeerOrder = beerOrderManager.newBeerOrder(beerOrder);
+        beerOrderManager.newBeerOrder(beerOrder);
         waitAtMost(5, TimeUnit.SECONDS).untilAsserted(() -> {
             BeerOrder foundOrder = beerOrderRepository.findById(beerOrder.getId()).get();
             assertEquals(BeerOrderStatusEnum.VALIDATION_EXCEPTION, foundOrder.getOrderStatus());
         });
+    }
+
+    @Test
+    public void testFailedAllocation() throws JsonProcessingException {
+        BeerDto beerDto = BeerDto.builder().id(beerId).upc(BEER_UPC).build();
+
+        wireMockServer.stubFor(get(BeerServiceImpl.BEER_UPC_PATH_V1 + BEER_UPC)
+                .willReturn(okJson(objectMapper.writeValueAsString(beerDto))));
+
+        BeerOrder beerOrder = createBeerOrder();
+        beerOrder.setCustomerRef("fail-allocation");
+
+        BeerOrder savedBeerOrder = beerOrderManager.newBeerOrder(beerOrder);
+        waitAtMost(5, TimeUnit.SECONDS).untilAsserted(() -> {
+            BeerOrder foundOrder = beerOrderRepository.findById(beerOrder.getId()).get();
+            assertEquals(BeerOrderStatusEnum.ALLOCATION_EXCEPTION, foundOrder.getOrderStatus());
+        });
+        AllocationFailureEvent failureEvent = (AllocationFailureEvent) jmsTemplate.receiveAndConvert(JmsConfig.ALLOCATION_FAILURE_QUEUE);
+        assertNotNull(failureEvent);
+        assertEquals(failureEvent.getOrderId(), savedBeerOrder.getId());
+    }
+
+    @Test void testPartialAllocation() throws JsonProcessingException {
+        BeerDto beerDto = BeerDto.builder().id(beerId).upc(BEER_UPC).build();
+
+        wireMockServer.stubFor(get(BeerServiceImpl.BEER_UPC_PATH_V1 + BEER_UPC)
+                .willReturn(okJson(objectMapper.writeValueAsString(beerDto))));
+
+        BeerOrder beerOrder = createBeerOrder();
+        beerOrder.setCustomerRef("partial-allocation");
+
+        beerOrderManager.newBeerOrder(beerOrder);
+        waitAtMost(5, TimeUnit.SECONDS).untilAsserted(() -> {
+            BeerOrder foundOrder = beerOrderRepository.findById(beerOrder.getId()).get();
+            assertEquals(BeerOrderStatusEnum.PENDING_INVENTORY, foundOrder.getOrderStatus());
+        });
+
     }
 
     @Test
