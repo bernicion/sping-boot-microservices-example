@@ -19,15 +19,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
-import org.springframework.jms.core.JmsTemplate;
 
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 import static com.github.tomakehurst.wiremock.client.WireMock.get;
 import static com.github.jenspiegsa.wiremockextension.ManagedWireMockServer.with;
 import static com.github.tomakehurst.wiremock.client.WireMock.okJson;
 import static com.github.tomakehurst.wiremock.core.WireMockConfiguration.wireMockConfig;
 import static org.awaitility.Awaitility.await;
+import static org.awaitility.Awaitility.waitAtMost;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
@@ -46,7 +47,7 @@ public class BeerOrderManagerImplIT {
     @Autowired
     WireMockServer wireMockServer;
     private Customer customer;
-    private UUID beerId;
+    private UUID beerId = UUID.randomUUID();
 
     @TestConfiguration
     static class RestTemplateBuilderProvider {
@@ -63,12 +64,12 @@ public class BeerOrderManagerImplIT {
         customer = customerRepository.save(Customer.builder()
                 .customerName("Test Customer")
                 .build());
-        beerId = UUID.randomUUID();
+//        beerId = UUID.randomUUID();
     }
 
     @Test
     void testNewToAllocated() throws JsonProcessingException {
-        BeerDto beerDto = BeerDto.builder().id(UUID.randomUUID()).upc(BEER_UPC).build();
+        BeerDto beerDto = BeerDto.builder().id(beerId).upc(BEER_UPC).build();
 
         wireMockServer.stubFor(get(BeerServiceImpl.BEER_UPC_PATH_V1 + BEER_UPC)
                 .willReturn(okJson(objectMapper.writeValueAsString(beerDto))));
@@ -77,12 +78,12 @@ public class BeerOrderManagerImplIT {
 
         BeerOrder savedBeerOrder = beerOrderManager.newBeerOrder(beerOrder);
 
-        await().untilAsserted(() -> {
+        waitAtMost(5, TimeUnit.SECONDS).untilAsserted(() -> {
             BeerOrder foundOrder = beerOrderRepository.findById(beerOrder.getId()).get();
             assertEquals(BeerOrderStatusEnum.ALLOCATED, foundOrder.getOrderStatus());
         });
 
-        await().untilAsserted(() -> {
+        waitAtMost(5, TimeUnit.SECONDS).untilAsserted(() -> {
             BeerOrder foundOrder = beerOrderRepository.findById(beerOrder.getId()).get();
             BeerOrderLine line = foundOrder.getBeerOrderLines().iterator().next();
             assertEquals(line.getOrderQuantity(), line.getQuantityAllocated());
@@ -98,8 +99,25 @@ public class BeerOrderManagerImplIT {
     }
 
     @Test
+    public void testFailedValidation() throws JsonProcessingException {
+        BeerDto beerDto = BeerDto.builder().id(beerId).upc(BEER_UPC).build();
+
+        wireMockServer.stubFor(get(BeerServiceImpl.BEER_UPC_PATH_V1 + BEER_UPC)
+                .willReturn(okJson(objectMapper.writeValueAsString(beerDto))));
+
+        BeerOrder beerOrder = createBeerOrder();
+        beerOrder.setCustomerRef("fail-validation");
+
+        BeerOrder savedBeerOrder = beerOrderManager.newBeerOrder(beerOrder);
+        waitAtMost(5, TimeUnit.SECONDS).untilAsserted(() -> {
+            BeerOrder foundOrder = beerOrderRepository.findById(beerOrder.getId()).get();
+            assertEquals(BeerOrderStatusEnum.VALIDATION_EXCEPTION, foundOrder.getOrderStatus());
+        });
+    }
+
+    @Test
     public void testNewToPickup() throws JsonProcessingException {
-        BeerDto beerDto = BeerDto.builder().id(UUID.randomUUID()).upc(BEER_UPC).build();
+        BeerDto beerDto = BeerDto.builder().id(beerId).upc(BEER_UPC).build();
 
         wireMockServer.stubFor(get(BeerServiceImpl.BEER_UPC_PATH_V1 + BEER_UPC)
                 .willReturn(okJson(objectMapper.writeValueAsString(beerDto))));
@@ -108,7 +126,7 @@ public class BeerOrderManagerImplIT {
 
         BeerOrder savedBeerOrder = beerOrderManager.newBeerOrder(beerOrder);
 
-        await().untilAsserted(() -> {
+        waitAtMost(5, TimeUnit.SECONDS).untilAsserted(() -> {
             BeerOrder foundOrder = beerOrderRepository.findById(beerOrder.getId()).get();
             assertEquals(BeerOrderStatusEnum.ALLOCATED, foundOrder.getOrderStatus());
         });
