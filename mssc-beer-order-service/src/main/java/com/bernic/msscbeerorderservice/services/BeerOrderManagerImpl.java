@@ -30,7 +30,6 @@ public class BeerOrderManagerImpl implements BeerOrderManager {
     private final StateMachineFactory<BeerOrderStatusEnum, BeerOrderEventEnum> stateMachineFactory;
     private final BeerOrderStateChangeInterceptor beerOrderStateChangeInterceptor;
     private final BeerOrderRepository beerOrderRepository;
-
     private final EntityManager entityManager;
 
     @Override
@@ -47,7 +46,7 @@ public class BeerOrderManagerImpl implements BeerOrderManager {
     @Override
     public void processValidationResult(UUID beerOrderId, Boolean isValid) {
         log.debug("Process Validation Result for beerOrderId: " + beerOrderId + " Valid?= " + isValid);
-        entityManager.flush();
+        entityManager.flush();//this is a hack
 
         Optional<BeerOrder> beerOrderOptional = beerOrderRepository.findById(beerOrderId);
         beerOrderOptional.ifPresentOrElse(beerOrder -> {
@@ -70,6 +69,7 @@ public class BeerOrderManagerImpl implements BeerOrderManager {
 
         beerOrderOptional.ifPresentOrElse(beerOrder -> {
             sendBeerOrderEvent(beerOrder, BeerOrderEventEnum.ALLOCATION_SUCCESS);
+            awaitForStatus(beerOrder.getId(), BeerOrderStatusEnum.ALLOCATED);
             updateAllocatedQty(beerOrderDto);
         }, () -> log.error("Order Id Not Found: " + beerOrderDto.getId()));
     }
@@ -80,7 +80,7 @@ public class BeerOrderManagerImpl implements BeerOrderManager {
 
         beerOrderOptional.ifPresentOrElse(beerOrder -> {
             sendBeerOrderEvent(beerOrder, BeerOrderEventEnum.ALLOCATION_NO_INVENTORY);
-
+            awaitForStatus(beerOrder.getId(), BeerOrderStatusEnum.PENDING_INVENTORY);
             updateAllocatedQty(beerOrderDto);
         }, () -> log.error("Order Id Not Found: " + beerOrderDto.getId()));
     }
