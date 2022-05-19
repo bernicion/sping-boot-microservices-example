@@ -21,6 +21,7 @@ public class BeerOrderAllocationListener {
     public void listen(Message msg) {
         boolean isAllocationFailure = false;
         boolean isPendingInventory = false;
+        boolean sendResponse = true;
 
         AllocateOrderRequest request = (AllocateOrderRequest) msg.getPayload();
 
@@ -31,6 +32,9 @@ public class BeerOrderAllocationListener {
         if ("fail-allocation".equals(customerRef)) {
             isAllocationFailure = true;
         }
+        if ("dont-allocate".equals(customerRef)) {
+            sendResponse = false;
+        }
 
         final boolean finalPendingInventory = isPendingInventory;
         request.getBeerOrderDto().getBeerOrderLines().forEach(beerOrderLineDto -> {
@@ -40,12 +44,13 @@ public class BeerOrderAllocationListener {
                 beerOrderLineDto.setQuantityAllocated(beerOrderLineDto.getOrderQuantity());
             }
         });
-
-        jmsTemplate.convertAndSend(JmsConfig.ALLOCATE_ORDER_RESPONSE_QUEUE,
-                AllocateOrderResult.builder()
-                        .beerOrderDto(request.getBeerOrderDto())
-                        .pendingInventory(isPendingInventory)
-                        .allocationError(isAllocationFailure)
-                        .build());
+        if(sendResponse) {
+            jmsTemplate.convertAndSend(JmsConfig.ALLOCATE_ORDER_RESPONSE_QUEUE,
+                    AllocateOrderResult.builder()
+                            .beerOrderDto(request.getBeerOrderDto())
+                            .pendingInventory(isPendingInventory)
+                            .allocationError(isAllocationFailure)
+                            .build());
+        }
     }
 }
