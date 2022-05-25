@@ -21,7 +21,7 @@ public class BeerOrderBootStrap implements CommandLineRunner {
     private final CustomerRepository customerRepository;
 
     private void loadCustomerData() {
-        if (customerRepository.count() == 0) {
+        if (customerRepository.findAllByCustomerName(BeerOrderBootStrap.TASTING_ROOM).size() == 0) {
             log.info("No Customer are present, so should add some...");
             Customer savedCustomer = customerRepository.save(Customer.builder()
                     .customerName(TASTING_ROOM)
