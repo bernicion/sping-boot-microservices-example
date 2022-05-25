@@ -16,6 +16,7 @@
         <module>mssc-brewery-client</module>
         <module>mssc-beer-order-service</module>
         <module>mssc-beer-inventory-service</module>
+        <module>mssc-brewery-gateway</module>
     </modules>
 
     <groupId>com.bernic</groupId>
