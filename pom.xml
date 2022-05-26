@@ -17,6 +17,7 @@
         <module>mssc-beer-order-service</module>
         <module>mssc-beer-inventory-service</module>
         <module>mssc-brewery-gateway</module>
+        <module>mssc-brewery-eureka</module>
     </modules>
 
     <groupId>com.bernic</groupId>
@@ -36,6 +37,7 @@
         <org.mapstruct.version>1.4.2.Final</org.mapstruct.version>
         <jaxb.version>2.3.1</jaxb.version>
         <spring-statemachine.version>2.2.3.RELEASE</spring-statemachine.version>
+        <spring-cloud.version>2021.0.1</spring-cloud.version>
     </properties>
 
     <dependencyManagement>
@@ -70,6 +72,13 @@
                 <groupId>org.springframework.statemachine</groupId>
                 <artifactId>spring-statemachine-bom</artifactId>
                 <version>${spring-statemachine.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>${spring-cloud.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
