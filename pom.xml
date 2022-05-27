@@ -19,6 +19,7 @@
         <module>mssc-brewery-gateway</module>
         <module>mssc-brewery-eureka</module>
         <module>mssc-beer-inventory-failover</module>
+        <module>mssc-config-server</module>
     </modules>
 
     <groupId>com.bernic</groupId>
