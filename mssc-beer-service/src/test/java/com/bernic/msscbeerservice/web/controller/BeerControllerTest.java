@@ -6,6 +6,7 @@ import com.bernic.brewery.model.BeerStyleEnum;
 import com.bernic.msscbeerservice.web.services.BeerService;
 import com.bernic.msscbeerservice.web.services.inventory.BeerInventoryService;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +35,7 @@ import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWit
 import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
 import static org.springframework.restdocs.snippet.Attributes.key;
 
+@Disabled
 @ExtendWith(RestDocumentationExtension.class)
 @AutoConfigureRestDocs(uriScheme = "https", uriHost = "dev.someHostName", uriPort = 80)
 @WebMvcTest({BeerController.class})
