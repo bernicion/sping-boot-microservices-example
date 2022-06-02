@@ -1,6 +1,7 @@
 package com.bernic.msscbeerorderservice.services.beer;
 
 import com.bernic.brewery.model.BeerDto;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.web.client.RestTemplateBuilder;
