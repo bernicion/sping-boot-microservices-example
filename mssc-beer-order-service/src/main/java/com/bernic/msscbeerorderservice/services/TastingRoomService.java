@@ -38,7 +38,7 @@ public class TastingRoomService {
     }
 
     @Transactional
-//    @Scheduled(fixedDelay = 2000, initialDelay = 10000)
+    @Scheduled(fixedDelay = 2000, initialDelay = 10000)
     public void placeTastingRoomOrder(){
         log.info("Trying to place and order at " + LocalDateTime.now());
         List<Customer> customerList = customerRepository.findAllByCustomerName(BeerOrderBootStrap.TASTING_ROOM);
